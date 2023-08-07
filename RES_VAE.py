@@ -71,8 +71,8 @@ class Encoder(nn.Module):
         self.res_down_block2 = ResDown(2 * ch, 4 * ch)
         self.res_down_block3 = ResDown(4 * ch, 8 * ch)
         self.res_down_block4 = ResDown(8 * ch, 16 * ch)
-        self.conv_mu = nn.Conv2d(16 * ch, latent_channels, 4, 1)
-        self.conv_log_var = nn.Conv2d(16 * ch, latent_channels, 4, 1)
+        self.conv_mu = nn.Conv2d(16 * ch, latent_channels, 4, 4)
+        self.conv_log_var = nn.Conv2d(16 * ch, latent_channels, 4, 4)
         self.act_fnc = nn.ELU()
 
     def sample(self, mu, log_var):
@@ -105,7 +105,7 @@ class Decoder(nn.Module):
 
     def __init__(self, channels, ch=64, latent_channels=512):
         super(Decoder, self).__init__()
-        self.conv_t_up = nn.ConvTranspose2d(latent_channels, ch * 16, 4, 1)
+        self.conv_t_up = nn.ConvTranspose2d(latent_channels, ch * 16, 4, 4)
         self.res_up_block1 = ResUp(ch * 16, ch * 8)
         self.res_up_block2 = ResUp(ch * 8, ch * 4)
         self.res_up_block3 = ResUp(ch * 4, ch * 2)
